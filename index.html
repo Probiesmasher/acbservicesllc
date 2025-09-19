@@ -40,12 +40,13 @@
     .track::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
     .card { background: var(--card); border: 1px solid #232634; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; flex: 0 0 260px; scroll-snap-align: start; }
     .thumb { aspect-ratio: 16/10; background: #0f172a; display: grid; place-items: center; color: #94a3b8; font-size: 13px; border-bottom: 1px solid #1f2937; }
-    .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 260px; }
     .title { font-weight: 700; font-size: 18px; }
     .desc { color: var(--muted); font-size: 14px; line-height: 1.35; }
+    .push { flex: 1 1 auto; } /* keeps price/buttons aligned at bottom across all cards */
     .price { margin-top: 6px; font-weight: 700; }
 
-    .btnrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btnrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: stretch; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 12px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid transparent; }
     .btn.stripe { background: #0d1220; border-color: #283044; color: var(--accent); }
     .btn.paypal { background: #0d1220; border-color: #283044; color: #ffc439; }
@@ -74,12 +75,12 @@
 <body>
   <header>
     <div class="brand">ACB Services</div>
-    <div class="tag">Custom 3D‑printed gear • Made to order in Ohio</div>
+    <div class="tag">Custom 3D-printed gear • Made to order in Ohio</div>
   </header>
 
   <main class="container">
     <div class="notice">
-      <strong>Heads‑up:</strong> This is a simple, fast store. “Buy with Stripe” opens a secure Stripe checkout link. “Pay with PayPal” uses PayPal Buttons. Shipping is calculated on checkout where supported or noted in the item.
+      <strong>Heads-up:</strong> This is a simple, fast store. “Buy with Stripe” opens a secure Stripe checkout link. “Pay with PayPal” uses PayPal Buttons. Shipping is calculated on checkout where supported or noted in the item.
     </div>
 
     <section style="margin-top: 22px;">
@@ -95,6 +96,7 @@
             <div class="card-body">
               <div class="title">Phone Stand (PLA)</div>
               <div class="desc">Minimal desktop phone stand. Colors: Black/White/Gray. Finish: Standard.</div>
+              <div class="push"></div>
               <div class="price">$12.00</div>
               <div class="btnrow">
                 <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener">Buy with Stripe</a>
@@ -110,6 +112,7 @@
             <div class="card-body">
               <div class="title">Cable Clips (Set of 6)</div>
               <div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
+              <div class="push"></div>
               <div class="price">$9.00</div>
               <div class="btnrow">
                 <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener">Buy with Stripe</a>
@@ -125,6 +128,7 @@
             <div class="card-body">
               <div class="title">Dice Tower (PETG)</div>
               <div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
+              <div class="push"></div>
               <div class="price">$28.00</div>
               <div class="btnrow">
                 <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener">Buy with Stripe</a>
@@ -140,6 +144,7 @@
             <div class="card-body">
               <div class="title">Wall Hook (PETG)</div>
               <div class="desc">Durable utility hook. Colors: Black/White. Includes screws.</div>
+              <div class="push"></div>
               <div class="price">$7.00</div>
               <div class="btnrow">
                 <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4" target="_blank" rel="noopener">Buy with Stripe</a>
@@ -155,6 +160,7 @@
             <div class="card-body">
               <div class="title">Hex Coasters (Set of 4)</div>
               <div class="desc">Honeycomb coasters with cork backing. Multiple colors.</div>
+              <div class="push"></div>
               <div class="price">$14.00</div>
               <div class="btnrow">
                 <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5" target="_blank" rel="noopener">Buy with Stripe</a>
@@ -191,8 +197,14 @@
         const item = el.dataset.item;
         // Create a container div for PayPal to render into
         const container = document.createElement('div');
+        container.className = 'paypal-container';
         container.style.width = '100%';
         el.replaceWith(container);
+
+        if (!window.paypal || !paypal.Buttons) {
+          console.error('PayPal SDK not loaded');
+          return;
+        }
 
         paypal.Buttons({
           style: { layout: 'horizontal', height: 40, label: 'paypal' },
@@ -206,7 +218,7 @@
           },
           onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-              alert('Thanks ' + (details.payer.name && details.payer.name.given_name ? details.payer.name.given_name : 'friend') + '! Your order for ' + item + ' was paid.');
+              alert('Thanks ' + (details.payer?.name?.given_name || 'friend') + '! Your order for ' + item + ' was paid.');
             });
           },
           onError: function(err) {
@@ -220,13 +232,14 @@
     // Simple year stamp
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    if (window.paypal) {
+    // Ensure PayPal renders once SDK is ready
+    if (document.readyState === 'complete') {
       renderPayPalButtons();
     } else {
       window.addEventListener('load', renderPayPalButtons);
     }
 
-    // Carousel behavior: show arrows only if more than 4 items
+    // Carousel behavior: show arrows only if more than 4 items and loop at ends
     (function () {
       const track = document.getElementById('catalog');
       const prev = document.querySelector('.nav.prev');
@@ -238,8 +251,31 @@
         prev.style.display = next.style.display = show ? 'grid' : 'none';
       }
 
-      prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
-      next.addEventListener('click', () => track.scrollBy({ left:  track.clientWidth, behavior: 'smooth' }));
+      function atStart() {
+        return track.scrollLeft <= 5;
+      }
+      function atEnd() {
+        return track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+      }
+
+      function scrollNext() {
+        if (atEnd()) {
+          track.scrollTo({ left: 0, behavior: 'smooth' }); // loop to start
+        } else {
+          track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        }
+      }
+      function scrollPrev() {
+        if (atStart()) {
+          const maxLeft = Math.max(track.scrollWidth - track.clientWidth, 0);
+          track.scrollTo({ left: maxLeft, behavior: 'smooth' }); // loop to end
+        } else {
+          track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        }
+      }
+
+      prev.addEventListener('click', scrollPrev);
+      next.addEventListener('click', scrollNext);
 
       updateArrows();
     })();
