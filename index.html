@@ -26,8 +26,19 @@
 
     .notice { background: #111827; border: 1px solid #1f2937; padding: 14px 16px; border-radius: 12px; color: var(--muted); font-size: 14px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 18px; }
-    .card { background: var(--card); border: 1px solid #232634; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    /* Carousel styles */
+    .carousel { position: relative; margin-top: 18px; }
+    .track {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding: 4px 40px;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+    .track::-webkit-scrollbar { height: 10px; }
+    .track::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
+    .card { background: var(--card); border: 1px solid #232634; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; flex: 0 0 260px; scroll-snap-align: start; }
     .thumb { aspect-ratio: 16/10; background: #0f172a; display: grid; place-items: center; color: #94a3b8; font-size: 13px; border-bottom: 1px solid #1f2937; }
     .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
     .title { font-weight: 700; font-size: 18px; }
@@ -39,6 +50,16 @@
     .btn.stripe { background: #0d1220; border-color: #283044; color: var(--accent); }
     .btn.paypal { background: #0d1220; border-color: #283044; color: #ffc439; }
     .btn:hover { filter: brightness(1.08); }
+
+    .nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px; display: none; place-items: center;
+      border-radius: 50%; border: 1px solid #283044; background:#0d1220; color:#e8eaf1;
+      cursor: pointer; z-index: 2; user-select: none;
+    }
+    .nav.prev { left: 6px; }
+    .nav.next { right: 6px; }
+    .nav:hover { filter: brightness(1.1); }
 
     .footer { margin-top: 48px; padding: 32px 0 56px; color: var(--muted); font-size: 14px; text-align: center; }
     .footer a { color: var(--accent-2); text-decoration: none; }
@@ -63,51 +84,88 @@
 
     <section style="margin-top: 22px;">
       <h2 style="margin:0 0 8px; font-size: 22px;">Catalog</h2>
-      <div class="grid" id="catalog">
-        <!-- Product 1 -->
-        <article class="card">
-          <div class="thumb">Upload a photo later</div>
-          <div class="card-body">
-            <div class="title">Phone Stand (PLA)</div>
-            <div class="desc">Minimal desktop phone stand. Colors: Black/White/Gray. Finish: Standard.</div>
-            <div class="price">$12.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener">Buy with Stripe</a>
-              <div class="btn paypal" data-item="Phone Stand (PLA)" data-amount="12.00"></div>
-            </div>
-            <span class="badge">Lead time: 2–4 days</span>
-          </div>
-        </article>
 
-        <!-- Product 2 -->
-        <article class="card">
-          <div class="thumb">Upload a photo later</div>
-          <div class="card-body">
-            <div class="title">Cable Clips (Set of 6)</div>
-            <div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
-            <div class="price">$9.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener">Buy with Stripe</a>
-              <div class="btn paypal" data-item="Cable Clips (6pk)" data-amount="9.00"></div>
-            </div>
-            <span class="badge">Lead time: 1–3 days</span>
-          </div>
-        </article>
+      <div class="carousel">
+        <button class="nav prev" aria-label="Previous">‹</button>
+        <div class="track" id="catalog">
 
-        <!-- Product 3 -->
-        <article class="card">
-          <div class="thumb">Upload a photo later</div>
-          <div class="card-body">
-            <div class="title">Dice Tower (PETG)</div>
-            <div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
-            <div class="price">$28.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener">Buy with Stripe</a>
-              <div class="btn paypal" data-item="Dice Tower (PETG)" data-amount="28.00"></div>
+          <!-- Product 1 -->
+          <article class="card">
+            <div class="thumb">Upload a photo later</div>
+            <div class="card-body">
+              <div class="title">Phone Stand (PLA)</div>
+              <div class="desc">Minimal desktop phone stand. Colors: Black/White/Gray. Finish: Standard.</div>
+              <div class="price">$12.00</div>
+              <div class="btnrow">
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener">Buy with Stripe</a>
+                <div class="btn paypal" data-item="Phone Stand (PLA)" data-amount="12.00"></div>
+              </div>
+              <span class="badge">Lead time: 2–4 days</span>
             </div>
-            <span class="badge">Lead time: 3–6 days</span>
-          </div>
-        </article>
+          </article>
+
+          <!-- Product 2 -->
+          <article class="card">
+            <div class="thumb">Upload a photo later</div>
+            <div class="card-body">
+              <div class="title">Cable Clips (Set of 6)</div>
+              <div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
+              <div class="price">$9.00</div>
+              <div class="btnrow">
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener">Buy with Stripe</a>
+                <div class="btn paypal" data-item="Cable Clips (6pk)" data-amount="9.00"></div>
+              </div>
+              <span class="badge">Lead time: 1–3 days</span>
+            </div>
+          </article>
+
+          <!-- Product 3 -->
+          <article class="card">
+            <div class="thumb">Upload a photo later</div>
+            <div class="card-body">
+              <div class="title">Dice Tower (PETG)</div>
+              <div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
+              <div class="price">$28.00</div>
+              <div class="btnrow">
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener">Buy with Stripe</a>
+                <div class="btn paypal" data-item="Dice Tower (PETG)" data-amount="28.00"></div>
+              </div>
+              <span class="badge">Lead time: 3–6 days</span>
+            </div>
+          </article>
+
+          <!-- Product 4 -->
+          <article class="card">
+            <div class="thumb">Upload a photo later</div>
+            <div class="card-body">
+              <div class="title">Wall Hook (PETG)</div>
+              <div class="desc">Durable utility hook. Colors: Black/White. Includes screws.</div>
+              <div class="price">$7.00</div>
+              <div class="btnrow">
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4" target="_blank" rel="noopener">Buy with Stripe</a>
+                <div class="btn paypal" data-item="Wall Hook (PETG)" data-amount="7.00"></div>
+              </div>
+              <span class="badge">Lead time: 1–2 days</span>
+            </div>
+          </article>
+
+          <!-- Product 5 (adds arrows automatically) -->
+          <article class="card">
+            <div class="thumb">Upload a photo later</div>
+            <div class="card-body">
+              <div class="title">Hex Coasters (Set of 4)</div>
+              <div class="desc">Honeycomb coasters with cork backing. Multiple colors.</div>
+              <div class="price">$14.00</div>
+              <div class="btnrow">
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5" target="_blank" rel="noopener">Buy with Stripe</a>
+                <div class="btn paypal" data-item="Hex Coasters (Set of 4)" data-amount="14.00"></div>
+              </div>
+              <span class="badge">Lead time: 2–3 days</span>
+            </div>
+          </article>
+
+        </div>
+        <button class="nav next" aria-label="Next">›</button>
       </div>
     </section>
 
@@ -122,8 +180,9 @@
     </section>
   </main>
 
-  <!-- PayPal JavaScript SDK: replace YOUR_PAYPAL_CLIENT_ID and currency if needed -->
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD&components=buttons"></script>
+  <!-- PayPal JavaScript SDK: replace YOUR_REAL_PAYPAL_CLIENT_ID and currency if needed -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_REAL_PAYPAL_CLIENT_ID&currency=USD&components=buttons"></script>
+
   <script>
     // Render a PayPal button for each product block with class="btn paypal"
     function renderPayPalButtons() {
@@ -142,12 +201,12 @@
               purchase_units: [{
                 description: item,
                 amount: { value: amount }
-              }]]
+              }]
             });
           },
           onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-              alert('Thanks ' + (details.payer.name?.given_name || 'friend') + '! Your order for ' + item + ' was paid.');
+              alert('Thanks ' + (details.payer.name && details.payer.name.given_name ? details.payer.name.given_name : 'friend') + '! Your order for ' + item + ' was paid.');
             });
           },
           onError: function(err) {
@@ -166,6 +225,24 @@
     } else {
       window.addEventListener('load', renderPayPalButtons);
     }
+
+    // Carousel behavior: show arrows only if more than 4 items
+    (function () {
+      const track = document.getElementById('catalog');
+      const prev = document.querySelector('.nav.prev');
+      const next = document.querySelector('.nav.next');
+
+      function updateArrows() {
+        const items = track.querySelectorAll('.card').length;
+        const show = items > 4;
+        prev.style.display = next.style.display = show ? 'grid' : 'none';
+      }
+
+      prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left:  track.clientWidth, behavior: 'smooth' }));
+
+      updateArrows();
+    })();
   </script>
 </body>
 </html>
