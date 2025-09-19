@@ -13,41 +13,38 @@
       --muted: #9aa3b2;
       --accent: #4cc9f0;
       --accent-2: #80ed99;
-      --danger: #ff6b6b;
       --radius: 16px;
+      --overlay: rgba(3,7,18,0.6);
+      --panel: #0f1220;
+      --panel-border: #22283a;
     }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: linear-gradient(180deg, #0b0c10, #0d1220); color: var(--text); }
     header { padding: 48px 24px 16px; text-align: center; }
     .brand { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: 0.5px; }
     .tag { color: var(--muted); margin-top: 8px; font-size: 14px; }
-
     .container { width: min(1100px, 94vw); margin: 24px auto 64px; }
-
     .notice { background: #111827; border: 1px solid #1f2937; padding: 14px 16px; border-radius: 12px; color: var(--muted); font-size: 14px; }
 
-    /* Carousel styles */
+    /* Carousel */
     .carousel { position: relative; margin-top: 18px; }
     .track {
-      display: flex;
-      gap: 18px;
-      overflow-x: auto;
-      padding: 4px 40px;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
+      display: flex; gap: 18px; overflow-x: auto; padding: 4px 40px;
+      scroll-snap-type: x mandatory; scroll-behavior: smooth;
     }
     .track::-webkit-scrollbar { height: 10px; }
     .track::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
-    .card { background: var(--card); border: 1px solid #232634; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; flex: 0 0 260px; scroll-snap-align: start; }
+    .card { background: var(--card); border: 1px solid #232634; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; flex: 0 0 260px; scroll-snap-align: start; cursor: pointer; }
     .thumb { aspect-ratio: 16/10; background: #0f172a; display: grid; place-items: center; color: #94a3b8; font-size: 13px; border-bottom: 1px solid #1f2937; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .card-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 260px; }
     .title { font-weight: 700; font-size: 18px; }
     .desc { color: var(--muted); font-size: 14px; line-height: 1.35; }
-    .push { flex: 1 1 auto; } /* keeps price/buttons aligned at bottom across all cards */
+    .push { flex: 1 1 auto; } /* keeps price/buttons aligned at bottom across cards */
     .price { margin-top: 6px; font-weight: 700; }
 
     .btnrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: stretch; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 12px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid transparent; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 12px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid transparent; cursor: pointer; }
     .btn.stripe { background: #0d1220; border-color: #283044; color: var(--accent); }
     .btn.paypal { background: #0d1220; border-color: #283044; color: #ffc439; }
     .btn:hover { filter: brightness(1.08); }
@@ -63,13 +60,36 @@
     .nav:hover { filter: brightness(1.1); }
 
     .footer { margin-top: 48px; padding: 32px 0 56px; color: var(--muted); font-size: 14px; text-align: center; }
-    .footer a { color: var(--accent-2); text-decoration: none; }
     .legal { opacity: 0.8; font-size: 12px; margin-top: 12px; }
-
     .contact { margin-top: 28px; text-align: center; }
     .contact a { color: var(--accent); text-decoration: none; }
 
     .badge { display:inline-block; padding: 2px 8px; border: 1px solid #1f2937; border-radius: 999px; color: #9aa3b2; font-size: 12px; }
+
+    /* Modal */
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal .overlay { position: absolute; inset: 0; background: var(--overlay); backdrop-filter: blur(2px); }
+    .modal .panel {
+      position: relative; background: var(--panel); border: 1px solid var(--panel-border);
+      width: min(980px, 94vw); max-height: 88vh; border-radius: 20px; overflow: hidden;
+      display: grid; grid-template-columns: 1.1fr 1fr;
+    }
+    .panel .media { background: #0c1322; display: grid; place-items: center; }
+    .panel .media img { width: 100%; height: 100%; object-fit: cover; }
+    .panel .content { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .panel h3 { margin: 0; font-size: 24px; }
+    .panel .longdesc { color: var(--muted); line-height: 1.45; }
+    .panel .price { font-weight: 800; font-size: 18px; }
+    .panel .btnrow { margin-top: 4px; }
+    .panel .close {
+      position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid #2a3248; background:#0d1220; color:#e8eaf1; cursor:pointer; font-size: 20px;
+    }
+    @media (max-width: 860px) {
+      .panel { grid-template-columns: 1fr; max-height: 92vh; }
+      .panel .media { height: 42vh; }
+    }
   </style>
 </head>
 <body>
@@ -91,80 +111,110 @@
         <div class="track" id="catalog">
 
           <!-- Product 1 -->
-          <article class="card">
-            <div class="thumb">Upload a photo later</div>
+          <article class="card"
+            data-title="Phone Stand (PLA)"
+            data-price="$12.00"
+            data-amount="12.00"
+            data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1"
+            data-image="https://placehold.co/1200x800/png?text=Phone+Stand"
+            data-longdesc="Minimal desktop phone stand printed in PLA. Options: Black, White, Gray. Finish: Standard layer height for a clean look. Fits most phones with or without a slim case.">
+            <div class="thumb"><img src="https://placehold.co/520x325/png?text=Phone+Stand" alt="Phone Stand preview"></div>
             <div class="card-body">
               <div class="title">Phone Stand (PLA)</div>
               <div class="desc">Minimal desktop phone stand. Colors: Black/White/Gray. Finish: Standard.</div>
               <div class="push"></div>
               <div class="price">$12.00</div>
               <div class="btnrow">
-                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener">Buy with Stripe</a>
-                <div class="btn paypal" data-item="Phone Stand (PLA)" data-amount="12.00"></div>
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
+                <div class="btn paypal" data-item="Phone Stand (PLA)" data-amount="12.00" data-nomodal></div>
               </div>
               <span class="badge">Lead time: 2–4 days</span>
             </div>
           </article>
 
           <!-- Product 2 -->
-          <article class="card">
-            <div class="thumb">Upload a photo later</div>
+          <article class="card"
+            data-title="Cable Clips (Set of 6)"
+            data-price="$9.00"
+            data-amount="9.00"
+            data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2"
+            data-image="https://placehold.co/1200x800/png?text=Cable+Clips"
+            data-longdesc="Six-pack of low-profile cable clips to tame the chaos under (and on) your desk. PLA. Colors: Black, White. Includes adhesive backing.">
+            <div class="thumb"><img src="https://placehold.co/520x325/png?text=Cable+Clips" alt="Cable clips preview"></div>
             <div class="card-body">
               <div class="title">Cable Clips (Set of 6)</div>
               <div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
               <div class="push"></div>
               <div class="price">$9.00</div>
               <div class="btnrow">
-                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener">Buy with Stripe</a>
-                <div class="btn paypal" data-item="Cable Clips (6pk)" data-amount="9.00"></div>
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
+                <div class="btn paypal" data-item="Cable Clips (6pk)" data-amount="9.00" data-nomodal></div>
               </div>
               <span class="badge">Lead time: 1–3 days</span>
             </div>
           </article>
 
           <!-- Product 3 -->
-          <article class="card">
-            <div class="thumb">Upload a photo later</div>
+          <article class="card"
+            data-title="Dice Tower (PETG)"
+            data-price="$28.00"
+            data-amount="28.00"
+            data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3"
+            data-image="https://placehold.co/1200x800/png?text=Dice+Tower"
+            data-longdesc="Smooth-rolling tabletop dice tower printed in PETG for durability. Options: Black, Marble Gray. Finish: Fine layer height. Perfect for RPG nights.">
+            <div class="thumb"><img src="https://placehold.co/520x325/png?text=Dice+Tower" alt="Dice tower preview"></div>
             <div class="card-body">
               <div class="title">Dice Tower (PETG)</div>
               <div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
               <div class="push"></div>
               <div class="price">$28.00</div>
               <div class="btnrow">
-                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener">Buy with Stripe</a>
-                <div class="btn paypal" data-item="Dice Tower (PETG)" data-amount="28.00"></div>
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
+                <div class="btn paypal" data-item="Dice Tower (PETG)" data-amount="28.00" data-nomodal></div>
               </div>
               <span class="badge">Lead time: 3–6 days</span>
             </div>
           </article>
 
           <!-- Product 4 -->
-          <article class="card">
-            <div class="thumb">Upload a photo later</div>
+          <article class="card"
+            data-title="Wall Hook (PETG)"
+            data-price="$7.00"
+            data-amount="7.00"
+            data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4"
+            data-image="https://placehold.co/1200x800/png?text=Wall+Hook"
+            data-longdesc="Compact utility wall hook, PETG for strength. Great for keys, hats, or light bags. Colors: Black, White. Includes screws.">
+            <div class="thumb"><img src="https://placehold.co/520x325/png?text=Wall+Hook" alt="Wall hook preview"></div>
             <div class="card-body">
               <div class="title">Wall Hook (PETG)</div>
               <div class="desc">Durable utility hook. Colors: Black/White. Includes screws.</div>
               <div class="push"></div>
               <div class="price">$7.00</div>
               <div class="btnrow">
-                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4" target="_blank" rel="noopener">Buy with Stripe</a>
-                <div class="btn paypal" data-item="Wall Hook (PETG)" data-amount="7.00"></div>
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
+                <div class="btn paypal" data-item="Wall Hook (PETG)" data-amount="7.00" data-nomodal></div>
               </div>
               <span class="badge">Lead time: 1–2 days</span>
             </div>
           </article>
 
-          <!-- Product 5 (adds arrows automatically) -->
-          <article class="card">
-            <div class="thumb">Upload a photo later</div>
+          <!-- Product 5 -->
+          <article class="card"
+            data-title="Hex Coasters (Set of 4)"
+            data-price="$14.00"
+            data-amount="14.00"
+            data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5"
+            data-image="https://placehold.co/1200x800/png?text=Hex+Coasters"
+            data-longdesc="Honeycomb coasters with cork backing. Multiple colors to match your desk setup. Heat-resistant up to typical mug temps.">
+            <div class="thumb"><img src="https://placehold.co/520x325/png?text=Hex+Coasters" alt="Hex coasters preview"></div>
             <div class="card-body">
               <div class="title">Hex Coasters (Set of 4)</div>
               <div class="desc">Honeycomb coasters with cork backing. Multiple colors.</div>
               <div class="push"></div>
               <div class="price">$14.00</div>
               <div class="btnrow">
-                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5" target="_blank" rel="noopener">Buy with Stripe</a>
-                <div class="btn paypal" data-item="Hex Coasters (Set of 4)" data-amount="14.00"></div>
+                <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
+                <div class="btn paypal" data-item="Hex Coasters (Set of 4)" data-amount="14.00" data-nomodal></div>
               </div>
               <span class="badge">Lead time: 2–3 days</span>
             </div>
@@ -186,57 +236,138 @@
     </section>
   </main>
 
+  <!-- Modal -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="overlay" data-close></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close" aria-label="Close" data-close>&times;</button>
+      <div class="media"><img id="modalImage" alt=""></div>
+      <div class="content">
+        <h3 id="modalTitle"></h3>
+        <p class="longdesc" id="modalDesc"></p>
+        <div class="price" id="modalPrice"></div>
+        <div class="btnrow">
+          <a id="modalStripe" class="btn stripe" target="_blank" rel="noopener">Buy with Stripe</a>
+          <div id="modalPaypal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PayPal JavaScript SDK: replace YOUR_REAL_PAYPAL_CLIENT_ID and currency if needed -->
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_REAL_PAYPAL_CLIENT_ID&currency=USD&components=buttons"></script>
 
   <script>
-    // Render a PayPal button for each product block with class="btn paypal"
-    function renderPayPalButtons() {
+    // Utility: render PayPal buttons into a target element with given item/amount
+    function renderPaypalInto(target, item, amount) {
+      if (!window.paypal || !paypal.Buttons) { return; }
+      target.innerHTML = '';
+      paypal.Buttons({
+        style: { layout: 'horizontal', height: 40, label: 'paypal' },
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              description: item,
+              amount: { value: amount }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Thanks ' + (details.payer?.name?.given_name || 'friend') + '! Your order for ' + item + ' was paid.');
+          });
+        },
+        onError: function(err) {
+          console.error('PayPal error', err);
+          alert('PayPal checkout error. Please try again or use Stripe.');
+        }
+      }).render(target);
+    }
+
+    // Render static PayPal buttons on product cards
+    function renderPayPalButtonsOnCards() {
       document.querySelectorAll('.btn.paypal').forEach(function(el){
         const amount = el.dataset.amount;
         const item = el.dataset.item;
-        // Create a container div for PayPal to render into
         const container = document.createElement('div');
         container.className = 'paypal-container';
         container.style.width = '100%';
         el.replaceWith(container);
-
-        if (!window.paypal || !paypal.Buttons) {
-          console.error('PayPal SDK not loaded');
-          return;
-        }
-
-        paypal.Buttons({
-          style: { layout: 'horizontal', height: 40, label: 'paypal' },
-          createOrder: function(data, actions) {
-            return actions.order.create({
-              purchase_units: [{
-                description: item,
-                amount: { value: amount }
-              }]
-            });
-          },
-          onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-              alert('Thanks ' + (details.payer?.name?.given_name || 'friend') + '! Your order for ' + item + ' was paid.');
-            });
-          },
-          onError: function(err) {
-            console.error('PayPal error', err);
-            alert('PayPal checkout error. Please try again or use Stripe.');
-          }
-        }).render(container);
+        renderPaypalInto(container, item, amount);
       });
     }
+
+    // Modal logic
+    (function () {
+      const modal = document.getElementById('productModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDesc = document.getElementById('modalDesc');
+      const modalPrice = document.getElementById('modalPrice');
+      const modalImage = document.getElementById('modalImage');
+      const modalStripe = document.getElementById('modalStripe');
+      const modalPaypal = document.getElementById('modalPaypal');
+      let lastFocus = null;
+
+      function openModal(data) {
+        lastFocus = document.activeElement;
+        modalTitle.textContent = data.title || '';
+        modalDesc.textContent = data.longdesc || '';
+        modalPrice.textContent = data.price || '';
+        modalImage.src = data.image || '';
+        modalImage.alt = data.title ? (data.title + ' large view') : 'Product image';
+        modalStripe.href = data.stripe || '#';
+        renderPaypalInto(modalPaypal, data.title, data.amount);
+
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        // focus the close button
+        const btnClose = modal.querySelector('.close');
+        btnClose && btnClose.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      // Close handlers
+      modal.addEventListener('click', function(e){
+        if (e.target.matches('[data-close]')) closeModal();
+      });
+      window.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+
+      // Open handlers — click a card, but ignore clicks on purchase controls
+      document.getElementById('catalog').addEventListener('click', function(e){
+        // Ignore clicks on elements that have data-nomodal or inside a button/link row
+        const withinNoModal = e.target.closest('[data-nomodal]') || e.target.closest('.btnrow');
+        if (withinNoModal) return;
+
+        const card = e.target.closest('.card');
+        if (!card) return;
+
+        const data = {
+          title: card.dataset.title,
+          price: card.dataset.price,
+          amount: card.dataset.amount,
+          stripe: card.dataset.stripe,
+          image: card.dataset.image,
+          longdesc: card.dataset.longdesc
+        };
+        openModal(data);
+      });
+    })();
 
     // Simple year stamp
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Ensure PayPal renders once SDK is ready
     if (document.readyState === 'complete') {
-      renderPayPalButtons();
+      renderPayPalButtonsOnCards();
     } else {
-      window.addEventListener('load', renderPayPalButtons);
+      window.addEventListener('load', renderPayPalButtonsOnCards);
     }
 
     // Carousel behavior: show arrows only if more than 4 items and loop at ends
@@ -251,12 +382,8 @@
         prev.style.display = next.style.display = show ? 'grid' : 'none';
       }
 
-      function atStart() {
-        return track.scrollLeft <= 5;
-      }
-      function atEnd() {
-        return track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
-      }
+      function atStart() { return track.scrollLeft <= 5; }
+      function atEnd() { return track.scrollLeft + track.clientWidth >= track.scrollWidth - 5; }
 
       function scrollNext() {
         if (atEnd()) {
