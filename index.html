@@ -1,11 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ACB Services — 3D Prints</title>
-  <meta name="description" content="ACB Services — custom 3D printed items. Order online via Stripe or PayPal." />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>ACB Services — 3D Prints</title>
+<meta content="ACB Services — custom 3D printed items. Order online via PayPal." name="description"/>
+<style>
     :root {
       --bg: #0b0c10;
       --card: #121318;
@@ -59,9 +60,8 @@
     .push { flex: 1 1 auto; }
     .price { margin-top: 6px; font-weight: 700; }
 
-    .btnrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: stretch; }
+    .btnrow { display: grid; grid-template-columns: 1fr; gap: 10px; align-items: stretch; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 12px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid transparent; cursor: pointer; }
-    .btn.stripe { background: #0d1220; border-color: #283044; color: var(--accent); }
     .btn.paypal { background: #0d1220; border-color: #283044; color: #ffc439; }
     .btn:hover { filter: brightness(1.08); }
     .btn.disabled { opacity: .55; cursor: not-allowed; }
@@ -81,9 +81,12 @@
       position: relative; background: var(--panel); border: 1px solid var(--panel-border);
       width: min(980px, 94vw); max-height: 88vh; border-radius: 20px; overflow: hidden;
       display: grid; grid-template-columns: 1.1fr 1fr;
+     overflow-y: auto;
     }
-    .panel .media { position: relative; background: #0c1322; display: grid; place-items: center; }
-    .panel .media img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .panel.single { grid-template-columns: 1fr; }
+.panel .media { position: relative; background: #0c1322; display: grid; place-items: center;  max-height: 70vh;}
+    .panel .media img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
     .panel .mnav {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 40px; height: 40px; border-radius: 999px; border: 1px solid #2a3248;
@@ -98,7 +101,8 @@
     }
     .panel .thumbs img { width:72px; height:54px; object-fit:cover; border-radius:8px; opacity:.75; cursor:pointer; border:1px solid transparent; }
     .panel .thumbs img.active { opacity:1; border-color:#2f7ee9; }
-    .panel .content { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .panel .content { padding: 20px; display: flex; flex-direction: column; gap: 12px;  min-height: 0; overflow-y: auto; }
+
     .panel h3 { margin: 0; font-size: 24px; }
     .panel .longdesc { color: var(--muted); line-height: 1.45; }
     .panel .price { font-weight: 800; font-size: 18px; }
@@ -112,213 +116,134 @@
     }
     @media (max-width: 860px) {
       .panel { grid-template-columns: 1fr; max-height: 92vh; }
-      .panel .media { height: 42vh; }
+      .panel .media { max-height: 70vh; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="headrow">
-      <img class="logo" alt="ACB logo" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234cc9f0'/><stop offset='1' stop-color='%2380ed99'/></linearGradient></defs><rect width='128' height='128' rx='20' ry='20' fill='%2310152a' stroke='%23263046' stroke-width='6'/><g fill='url(%23g)' font-family='Verdana' font-weight='700' font-size='56'><text x='18' y='76'>AC</text><text x='72' y='76'>B</text></g></svg>" />
-      <div class="brand">ACB Services</div>
-    </div>
-    <div class="tag">Custom 3D-printed gear • Made to order in Ohio</div>
-  </header>
-
-  <main class="container">
-    <div class="notice">
-      <strong>Heads-up:</strong> This is a simple, fast store. “Buy with Stripe” opens a secure Stripe checkout link. “Pay with PayPal” uses PayPal Buttons. Shipping is calculated on checkout where supported or noted in the item.
-    </div>
-
-    <section style="margin-top: 22px;">
-      <h2 style="margin:0 0 8px; font-size: 22px;">Catalog</h2>
-
-      <!-- Grid of products (no horizontal scrollbar, wraps to new rows) -->
-      <div class="catalog-grid" id="catalog">
-
-        <!-- Product 1 -->
-        <article class="card"
-          data-title="Phone Stand (PLA)"
-          data-price="$12.00"
-          data-amount="12.00"
-          data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1"
-          data-image="https://placehold.co/1200x800/png?text=Phone+Stand"
-          data-images="https://placehold.co/1200x800/png?text=Phone+Stand+1,https://placehold.co/1200x800/png?text=Phone+Stand+2,https://placehold.co/1200x800/png?text=Phone+Stand+3"
-          data-colors="Black|White|Gray"
-          data-longdesc="Minimal desktop phone stand printed in PLA. Options: Black, White, Gray. Finish: Standard layer height for a clean look. Fits most phones with or without a slim case.">
-          <div class="thumb"><img loading="lazy" src="https://placehold.co/520x325/png?text=Phone+Stand" alt="Phone Stand preview"></div>
-          <div class="card-body">
-            <div class="title">Phone Stand (PLA)</div>
-            <div class="desc">Minimal desktop phone stand. Colors: Black/White/Gray. Finish: Standard.</div>
-            <div class="push"></div>
-            <div class="price">$12.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_1" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
-              <div class="btn paypal" data-item="Phone Stand (PLA)" data-amount="12.00" data-nomodal aria-label="Pay with PayPal"></div>
-            </div>
-            <span class="badge">Lead time: 2–4 days</span>
-          </div>
-        </article>
-
-        <!-- Product 2 -->
-        <article class="card"
-          data-title="Cable Clips (6pk)"
-          data-price="$9.00"
-          data-amount="9.00"
-          data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2"
-          data-image="https://placehold.co/1200x800/png?text=Cable+Clips"
-          data-images="https://placehold.co/1200x800/png?text=Cable+Clips+1,https://placehold.co/1200x800/png?text=Cable+Clips+2"
-          data-colors="Black|White"
-          data-longdesc="Six-pack of low-profile cable clips to tame the chaos under (and on) your desk. PLA. Colors: Black, White. Includes adhesive backing.">
-          <div class="thumb"><img loading="lazy" src="https://placehold.co/520x325/png?text=Cable+Clips" alt="Cable clips preview"></div>
-          <div class="card-body">
-            <div class="title">Cable Clips (6pk)</div>
-            <div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
-            <div class="push"></div>
-            <div class="price">$9.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_2" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
-              <div class="btn paypal" data-item="Cable Clips (6pk)" data-amount="9.00" data-nomodal aria-label="Pay with PayPal"></div>
-            </div>
-            <span class="badge">Lead time: 1–3 days</span>
-          </div>
-        </article>
-
-        <!-- Product 3 -->
-        <article class="card"
-          data-title="Dice Tower (PETG)"
-          data-price="$28.00"
-          data-amount="28.00"
-          data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3"
-          data-image="https://placehold.co/1200x800/png?text=Dice+Tower"
-          data-images="https://placehold.co/1200x800/png?text=Dice+Tower+1,https://placehold.co/1200x800/png?text=Dice+Tower+2,https://placehold.co/1200x800/png?text=Dice+Tower+3,https://placehold.co/1200x800/png?text=Dice+Tower+4"
-          data-colors="Black|Marble Gray"
-          data-longdesc="Smooth-rolling tabletop dice tower printed in PETG for durability. Options: Black, Marble Gray. Finish: Fine layer height. Perfect for RPG nights.">
-          <div class="thumb"><img loading="lazy" src="https://placehold.co/520x325/png?text=Dice+Tower" alt="Dice tower preview"></div>
-          <div class="card-body">
-            <div class="title">Dice Tower (PETG)</div>
-            <div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
-            <div class="push"></div>
-            <div class="price">$28.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_3" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
-              <div class="btn paypal" data-item="Dice Tower (PETG)" data-amount="28.00" data-nomodal aria-label="Pay with PayPal"></div>
-            </div>
-            <span class="badge">Lead time: 3–6 days</span>
-          </div>
-        </article>
-
-        <!-- Product 4 -->
-        <article class="card"
-          data-title="Wall Hook (PETG)"
-          data-price="$7.00"
-          data-amount="7.00"
-          data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4"
-          data-image="https://placehold.co/1200x800/png?text=Wall+Hook"
-          data-images="https://placehold.co/1200x800/png?text=Wall+Hook+1,https://placehold.co/1200x800/png?text=Wall+Hook+2"
-          data-colors="Black|White"
-          data-longdesc="Compact utility wall hook, PETG for strength. Great for keys, hats, or light bags. Colors: Black, White. Includes screws.">
-          <div class="thumb"><img loading="lazy" src="https://placehold.co/520x325/png?text=Wall+Hook" alt="Wall hook preview"></div>
-          <div class="card-body">
-            <div class="title">Wall Hook (PETG)</div>
-            <div class="desc">Durable utility hook. Colors: Black/White. Includes screws.</div>
-            <div class="push"></div>
-            <div class="price">$7.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_4" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
-              <div class="btn paypal" data-item="Wall Hook (PETG)" data-amount="7.00" data-nomodal aria-label="Pay with PayPal"></div>
-            </div>
-            <span class="badge">Lead time: 1–2 days</span>
-          </div>
-        </article>
-
-        <!-- Product 5 -->
-        <article class="card"
-          data-title="Hex Coasters (Set of 4)"
-          data-price="$14.00"
-          data-amount="14.00"
-          data-stripe="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5"
-          data-image="https://placehold.co/1200x800/png?text=Hex+Coasters"
-          data-images="https://placehold.co/1200x800/png?text=Hex+Coasters+1,https://placehold.co/1200x800/png?text=Hex+Coasters+2,https://placehold.co/1200x800/png?text=Hex+Coasters+3"
-          data-colors="Black|White|Gray"
-          data-longdesc="Honeycomb coasters with cork backing. Multiple colors to match your desk setup. Heat-resistant up to typical mug temps.">
-          <div class="thumb"><img loading="lazy" src="https://placehold.co/520x325/png?text=Hex+Coasters" alt="Hex coasters preview"></div>
-          <div class="card-body">
-            <div class="title">Hex Coasters (Set of 4)</div>
-            <div class="desc">Honeycomb coasters with cork backing. Multiple colors.</div>
-            <div class="push"></div>
-            <div class="price">$14.00</div>
-            <div class="btnrow">
-              <a class="btn stripe" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK_5" target="_blank" rel="noopener" data-nomodal>Buy with Stripe</a>
-              <div class="btn paypal" data-item="Hex Coasters (Set of 4)" data-amount="14.00" data-nomodal aria-label="Pay with PayPal"></div>
-            </div>
-            <span class="badge">Lead time: 2–3 days</span>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <section class="contact">
-      <h3>Custom Print?</h3>
-      <p>Need a custom size or part? Email <a href="mailto:orders@acbservices.shop">orders@acbservices.shop</a> with your STL and we’ll quote it.</p>
-    </section>
-
-    <section class="footer">
-      <div>© <span id="year"></span> ACB Services • North Ridgeville, OH</div>
-      <div class="legal">3D prints may show light layer lines. PLA items should not be left in hot cars or direct sunlight. Returns accepted for print defects only within 14 days of delivery.</div>
-    </section>
-  </main>
-
-  <!-- Modal -->
-  <div class="modal" id="productModal" aria-hidden="true">
-    <div class="overlay" data-close></div>
-    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="close" aria-label="Close" data-close>&times;</button>
-      <div class="media">
-        <img id="modalImage" alt="Large product image">
-        <button class="mnav prev" aria-label="Prev image">‹</button>
-        <button class="mnav next" aria-label="Next image">›</button>
-      </div>
-      <div class="thumbs" id="modalThumbs"></div>
-      <div class="content">
-        <h3 id="modalTitle"></h3>
-        <p class="longdesc" id="modalDesc"></p>
-        <div class="options">
-          <label for="modalColor">Color</label>
-          <select id="modalColor" aria-label="Select color"></select>
-        </div>
-        <div class="price" id="modalPrice"></div>
-        <div class="btnrow">
-          <a id="modalStripe" class="btn stripe" target="_blank" rel="noopener">Buy with Stripe</a>
-          <div id="modalPaypal"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PayPal JavaScript SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_REAL_PAYPAL_CLIENT_ID&currency=USD&components=buttons"></script>
-
-  <script>
-    const WORKER_ENDPOINT = ''; // '/api/checkout' if routed, or your workers.dev URL
-
-    async function startStripeCheckout(item, amount, color) {
-      if (!WORKER_ENDPOINT) return alert('Stripe Worker not configured yet.');
-      try {
-        const res = await fetch(WORKER_ENDPOINT, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ item, amount, color, success_url: location.origin + '/?paid=1', cancel_url: location.href })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || ('HTTP ' + res.status));
-        if (!data?.url) throw new Error('No URL returned');
-        location.href = data.url;
-      } catch (err) { alert('Checkout error: ' + err.message); }
-    }
-
-    function getConfiguredPaypalClientId() {
+<header>
+<div class="headrow">
+<img alt="ACB logo" class="logo" src="data:image/svg+xml;utf8,&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'&gt;&lt;defs&gt;&lt;linearGradient id='g' x1='0' y1='0' x2='1' y2='1'&gt;&lt;stop offset='0' stop-color='%234cc9f0'/&gt;&lt;stop offset='1' stop-color='%2380ed99'/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;rect width='128' height='128' rx='20' ry='20' fill='%2310152a' stroke='%23263046' stroke-width='6'/&gt;&lt;g fill='url(%23g)' font-family='Verdana' font-weight='700' font-size='56'&gt;&lt;text x='18' y='76'&gt;AC&lt;/text&gt;&lt;text x='72' y='76'&gt;B&lt;/text&gt;&lt;/g&gt;&lt;/svg&gt;"/>
+<div class="brand">ACB Services</div>
+</div>
+<div class="tag">Custom 3D-printed gear • Made to order in Ohio</div>
+</header>
+<main class="container">
+<div class="notice">“Pay with PayPal” uses PayPal Buttons. Shipping is calculated on checkout where supported or noted in the item.</div>
+<section style="margin-top: 22px;">
+<h2 style="margin:0 0 8px; font-size: 22px;">Catalog</h2>
+<!-- Grid of products (no horizontal scrollbar, wraps to new rows) -->
+<div class="catalog-grid" id="catalog">
+<!-- Product 1 -->
+<article class="card" data-amount="5.00" data-colors="Brown|White" data-image="https://cdn.jsdelivr.net/gh/Probiesmasher/acbservicesllc@main/assets/holiday/halloween/jason1.jpg" data-images="https://cdn.jsdelivr.net/gh/Probiesmasher/acbservicesllc@main/assets/holiday/halloween/jason1.jpg,https://cdn.jsdelivr.net/gh/Probiesmasher/acbservicesllc@main/assets/holiday/halloween/jason2.jpg" data-longdesc="Tiny size, killer vibes. Jason Flexi-Fig is your pocket-sized slasher buddy — 3D printed and flexi for just the right amount of menace." data-price="$5.00" data-title=" Jason Flexi-Fig (PLA)">
+<div class="thumb"><img alt="Jason Flexi-Fig" loading="lazy" src="https://cdn.jsdelivr.net/gh/Probiesmasher/acbservicesllc@main/assets/holiday/halloween/jason1.jpg"/></div>
+<div class="card-body">
+<div class="title">Jason Flexi-Fig (PLA)</div>
+<div class="desc">Tiny size, killer vibes. Jason Flexi-Fig is your pocket-sized slasher buddy — 3D printed and flexi for just the right amount of menace. Colors: Brown/White. Finish: Standard.</div>
+<div class="push"></div>
+<div class="price">$5.00</div>
+<div class="btnrow">
+<div aria-label="Pay with PayPal" class="btn paypal" data-amount="5.00" data-item="Jason Flexi-Fig" data-nomodal=""></div>
+</div>
+<span class="badge">Lead time: 2–4 days</span>
+</div>
+</article>
+<!-- Product 2 -->
+<article class="card" data-amount="9.00" data-colors="Black|White" data-image="https://placehold.co/1200x800/png?text=Cable+Clips" data-images="https://placehold.co/1200x800/png?text=Cable+Clips+1,https://placehold.co/1200x800/png?text=Cable+Clips+2" data-longdesc="Six-pack of low-profile cable clips to tame the chaos under (and on) your desk. PLA. Colors: Black, White. Includes adhesive backing." data-price="$9.00" data-title="Cable Clips (6pk)">
+<div class="thumb"><img alt="Cable clips preview" loading="lazy" src="https://placehold.co/520x325/png?text=Cable+Clips"/></div>
+<div class="card-body">
+<div class="title">Cable Clips (6pk)</div>
+<div class="desc">Clip set for desk cable management. Colors: Black/White.</div>
+<div class="push"></div>
+<div class="price">$9.00</div>
+<div class="btnrow">
+<div aria-label="Pay with PayPal" class="btn paypal" data-amount="9.00" data-item="Cable Clips (6pk)" data-nomodal=""></div>
+</div>
+<span class="badge">Lead time: 1–3 days</span>
+</div>
+</article>
+<!-- Product 3 -->
+<article class="card" data-amount="28.00" data-colors="Black|Marble Gray" data-image="https://placehold.co/1200x800/png?text=Dice+Tower" data-images="https://placehold.co/1200x800/png?text=Dice+Tower+1,https://placehold.co/1200x800/png?text=Dice+Tower+2,https://placehold.co/1200x800/png?text=Dice+Tower+3,https://placehold.co/1200x800/png?text=Dice+Tower+4" data-longdesc="Smooth-rolling tabletop dice tower printed in PETG for durability. Options: Black, Marble Gray. Finish: Fine layer height. Perfect for RPG nights." data-price="$28.00" data-title="Dice Tower (PETG)">
+<div class="thumb"><img alt="Dice tower preview" loading="lazy" src="https://placehold.co/520x325/png?text=Dice+Tower"/></div>
+<div class="card-body">
+<div class="title">Dice Tower (PETG)</div>
+<div class="desc">Tabletop dice tower. Colors: Black/Marble Gray. Finish: Fine.</div>
+<div class="push"></div>
+<div class="price">$28.00</div>
+<div class="btnrow">
+<div aria-label="Pay with PayPal" class="btn paypal" data-amount="28.00" data-item="Dice Tower (PETG)" data-nomodal=""></div>
+</div>
+<span class="badge">Lead time: 3–6 days</span>
+</div>
+</article>
+<!-- Product 4 -->
+<article class="card" data-amount="7.00" data-colors="Black|White" data-image="https://placehold.co/1200x800/png?text=Wall+Hook" data-images="https://placehold.co/1200x800/png?text=Wall+Hook+1,https://placehold.co/1200x800/png?text=Wall+Hook+2" data-longdesc="Compact utility wall hook, PETG for strength. Great for keys, hats, or light bags. Colors: Black, White. Includes screws." data-price="$7.00" data-title="Wall Hook (PETG)">
+<div class="thumb"><img alt="Wall hook preview" loading="lazy" src="https://placehold.co/520x325/png?text=Wall+Hook"/></div>
+<div class="card-body">
+<div class="title">Wall Hook (PETG)</div>
+<div class="desc">Durable utility hook. Colors: Black/White. Includes screws.</div>
+<div class="push"></div>
+<div class="price">$7.00</div>
+<div class="btnrow">
+<div aria-label="Pay with PayPal" class="btn paypal" data-amount="7.00" data-item="Wall Hook (PETG)" data-nomodal=""></div>
+</div>
+<span class="badge">Lead time: 1–2 days</span>
+</div>
+</article>
+<!-- Product 5 -->
+<article class="card" data-amount="14.00" data-colors="Black|White|Gray" data-image="https://placehold.co/1200x800/png?text=Hex+Coasters" data-images="https://placehold.co/1200x800/png?text=Hex+Coasters+1,https://placehold.co/1200x800/png?text=Hex+Coasters+2,https://placehold.co/1200x800/png?text=Hex+Coasters+3" data-longdesc="Honeycomb coasters with cork backing. Multiple colors to match your desk setup. Heat-resistant up to typical mug temps." data-price="$14.00" data-title="Hex Coasters (Set of 4)">
+<div class="thumb"><img alt="Hex coasters preview" loading="lazy" src="https://placehold.co/520x325/png?text=Hex+Coasters"/></div>
+<div class="card-body">
+<div class="title">Hex Coasters (Set of 4)</div>
+<div class="desc">Honeycomb coasters with cork backing. Multiple colors.</div>
+<div class="push"></div>
+<div class="price">$14.00</div>
+<div class="btnrow">
+<div aria-label="Pay with PayPal" class="btn paypal" data-amount="14.00" data-item="Hex Coasters (Set of 4)" data-nomodal=""></div>
+</div>
+<span class="badge">Lead time: 2–3 days</span>
+</div>
+</article>
+</div>
+</section>
+<section class="contact">
+<h3>Custom Print?</h3>
+<p>Need a custom size or part? Email <a href="mailto:orders@acbservices.shop">orders@acbservices.shop</a> with your STL and we’ll quote it.</p>
+</section>
+<section class="footer">
+<div>© <span id="year"></span> ACB Services • North Ridgeville, OH</div>
+<div class="legal">3D prints may show light layer lines. PLA items should not be left in hot cars or direct sunlight. Returns accepted for print defects only within 14 days of delivery.</div>
+</section>
+</main>
+<!-- Modal -->
+<div aria-hidden="true" class="modal" id="productModal">
+<div class="overlay" data-close=""></div>
+<div aria-labelledby="modalTitle" aria-modal="true" class="panel" role="dialog">
+<button aria-label="Close" class="close" data-close="">×</button>
+<div class="media">
+<img alt="Large product image" id="modalImage"/>
+<button aria-label="Prev image" class="mnav prev">‹</button>
+<button aria-label="Next image" class="mnav next">›</button>
+</div>
+<div class="thumbs" id="modalThumbs"></div>
+<div class="content">
+<h3 id="modalTitle"></h3>
+<p class="longdesc" id="modalDesc"></p>
+<div class="options">
+<label for="modalColor">Color</label>
+<select aria-label="Select color" id="modalColor"></select>
+</div>
+<div class="price" id="modalPrice"></div>
+<div class="btnrow">
+<div id="modalPaypal"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_REAL_PAYPAL_CLIENT_ID¤cy=USD&amp;components=buttons"></script>
+<script>
+function getConfiguredPaypalClientId() {
       const tag = document.querySelector('script[src*="paypal.com/sdk/js"]');
       try { return new URL(tag.src).searchParams.get('client-id'); } catch (e) { return null; }
     }
@@ -354,7 +279,7 @@
           },
           onError: function(err) {
             console.error('PayPal error', err);
-            alert('PayPal checkout error. Please try again or use Stripe.');
+            alert('PayPal checkout error. Please try again.');
           }
         }).render(target);
       } else {
@@ -381,18 +306,63 @@
       const modalTitle = document.getElementById('modalTitle');
       const modalDesc = document.getElementById('modalDesc');
       const modalPrice = document.getElementById('modalPrice');
-      const modalImage = document.getElementById('modalImage');
-      const modalStripe = document.getElementById('modalStripe');
-      const modalPaypal = document.getElementById('modalPaypal');
+      const modalImage = document.getElementById('modalImage');const modalPaypal = document.getElementById('modalPaypal');
       const modalThumbs = document.getElementById('modalThumbs');
       const modalColor = document.getElementById('modalColor');
       const mPrev = modal.querySelector('.mnav.prev');
       const mNext = modal.querySelector('.mnav.next');
       let imgs = [], idx = 0, lastFocus = null, itemName = '', amount = '';
 
-      function setImage(i) {
+      
+      function setPanelLayoutByAspect(w, h) {
+        const ratio = (w && h) ? (w / h) : 1;
+        // If portrait-ish (tall images), use single column to avoid empty right space
+        if (ratio < 1.25) {
+          modal.querySelector('.panel').classList.add('single');
+        } else {
+          modal.querySelector('.panel').classList.remove('single');
+        }
+      }
+
+      function sizeMediaToImage(w, h) {
+        try {
+          const panelEl = modal.querySelector('.panel');
+          const media = modal.querySelector('.media');
+          const vw = Math.min(window.innerWidth * 0.94, 980);
+          const maxH = Math.min(window.innerHeight * 0.70, 900);
+          const ratio = (w && h) ? (w / h) : 1;
+          if (panelEl.classList.contains('single')) {
+            // Compute width so height stays within maxH
+            let height = Math.min(maxH, vw / ratio);
+            let width = Math.min(vw, height * ratio);
+            if (height > maxH) { height = maxH; width = height * ratio; }
+            media.style.height = height + 'px';
+            media.style.width = width + 'px';
+            media.style.justifySelf = 'center';
+          } else {
+            media.style.height = '';
+            media.style.width = '';
+            media.style.justifySelf = '';
+          }
+        } catch (e) {}
+      }
+function setImage(i) {
         idx = (i + imgs.length) % imgs.length;
-        modalImage.src = imgs[idx];
+        const src = imgs[idx];
+        // Reset aspect ratio until the image loads
+        modalImage.removeAttribute('width');
+        modalImage.removeAttribute('height');
+        modalImage.src = src;
+        // Once loaded, set the media container's aspect-ratio to match the image
+        modalImage.onload = function() {
+          try {
+            const w = modalImage.naturalWidth || 1;
+            const h = modalImage.naturalHeight || 1;
+            modal.querySelector('.media').style.aspectRatio = w + ' / ' + h;
+            setPanelLayoutByAspect(w, h);
+            sizeMediaToImage(w, h);
+          } catch (e) { /* no-op */ }
+        };
         Array.from(modalThumbs.querySelectorAll('img')).forEach((im, n) => im.classList.toggle('active', n === idx));
       }
       function buildThumbs() {
@@ -418,24 +388,24 @@
         amount = data.amount || '';
         modalTitle.textContent = itemName;
         modalDesc.textContent = data.longdesc || '';
-        modalPrice.textContent = data.price || '';
-        modalStripe.href = data.stripe || '#';
-        modalStripe.onclick = null;
-        if (WORKER_ENDPOINT) {
-          modalStripe.addEventListener('click', function(e){
-            e.preventDefault();
-            startStripeCheckout(itemName, amount, modalColor.value);
-          }, { once: true });
-        }
-        imgs = data.images && data.images.length ? data.images.slice() : (data.image ? [data.image] : []);
+        modalPrice.textContent = data.price || '';imgs = data.images && data.images.length ? data.images.slice() : (data.image ? [data.image] : []);
         idx = 0; if (imgs.length) { setImage(0); buildThumbs(); } else { modalImage.removeAttribute('src'); modalThumbs.innerHTML = ''; }
         setColors(data.colors || []);
+        // If the image might be cached, attempt setting aspect ratio immediately
+        if (modalImage.complete && modalImage.naturalWidth && modalImage.naturalHeight) {
+          modal.querySelector('.media').style.aspectRatio = modalImage.naturalWidth + ' / ' + modalImage.naturalHeight;
+          setPanelLayoutByAspect(modalImage.naturalWidth, modalImage.naturalHeight);
+          sizeMediaToImage(modalImage.naturalWidth, modalImage.naturalHeight);
+        }
         renderPaypalInto(modalPaypal, () => ({ item: itemName, amount, color: modalColor.value }));
         modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+        function _onResize(){ if (modalImage.naturalWidth && modalImage.naturalHeight) sizeMediaToImage(modalImage.naturalWidth, modalImage.naturalHeight); }
+        window.addEventListener('resize', _onResize);
+        modal._cleanup = () => window.removeEventListener('resize', _onResize);
         (modal.querySelector('.close') || modal).focus();
       }
       function closeModal() {
-        modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); if (lastFocus && lastFocus.focus) lastFocus.focus();
+        modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); if (modal._cleanup) { try { modal._cleanup(); } catch(e){} modal._cleanup = null; } if (lastFocus && lastFocus.focus) lastFocus.focus();
       }
       modal.addEventListener('click', e => { if (e.target.matches('[data-close]')) closeModal(); });
       window.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
@@ -448,13 +418,208 @@
         const card = e.target.closest('.card'); if (!card) return;
         const imagesAttr = (card.dataset.images || '').split(',').map(s => s.trim()).filter(Boolean);
         const colorsAttr = (card.dataset.colors || '').split('|').map(s => s.trim()).filter(Boolean);
-        const data = { title: card.dataset.title, price: card.dataset.price, amount: card.dataset.amount, stripe: card.dataset.stripe, image: card.dataset.image, images: imagesAttr, longdesc: card.dataset.longdesc, colors: colorsAttr };
+        const data = { title: card.dataset.title, price: card.dataset.price, amount: card.dataset.amount, image: card.dataset.image, images: imagesAttr, longdesc: card.dataset.longdesc, colors: colorsAttr };
         openModal(data);
       });
     })();
 
     document.getElementById('year').textContent = new Date().getFullYear();
     ensurePaypalLoaded().then(renderPayPalButtonsOnCards);
-  </script>
+  
+</script>
+
+<script>
+// Robust image path resolver for GitHub repos with nested folders.
+// Tries multiple relative bases and a jsDelivr fallback for raw.githubusercontent.com.
+//
+// How it works:
+// 1) For each <img> and any modal image set from data-images, we attempt to load.
+// 2) If it fails, we iterate through candidate bases until one loads.
+// 3) If the URL was a raw.githubusercontent.com link, we auto-convert to jsDelivr as a last resort.
+// 4) Filenames can be bare ('jason1.jpg') or relative ('./assets/jason1.jpg').
+
+(function() {
+  const CANDIDATE_BASES = [
+    "",           // same folder as the HTML
+    "./",
+    "../",
+    "../../",
+    "img/",
+    "./img/",
+    "../img/",
+    "../../img/",
+    "assets/",
+    "./assets/",
+    "./assets/jason/",
+    "../assets/",
+    "../assets/jason/"
+  ];
+
+  function toJsDelivr(url) {
+    // Convert raw GitHub URL to jsDelivr CDN
+    // raw: https://cdn.jsdelivr.net/gh/USER/REPO@BRANCH/path/file.jpg
+    // cdn: https://cdn.jsdelivr.net/gh/USER/REPO@BRANCH/path/file.jpg
+    try {
+      const m = url.match(/^https:\/\/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)$/);
+      if (!m) return null;
+      const [, user, repo, branch, rest] = m;
+      return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${rest}`;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function tryLoad(url) {
+    return new Promise((resolve, reject) => {
+      const testImg = new Image();
+      testImg.onload = () => resolve(url);
+      testImg.onerror = () => reject(url);
+      testImg.src = url + (url.includes("?") ? "&" : "?") + "cachebust=" + Date.now();
+    });
+  }
+
+  async function resolveUrl(original, contextDir="") {
+    // If it's an absolute http(s) URL, try as-is, then jsDelivr fallback if raw.*
+    if (/^https?:\/\//i.test(original)) {
+      try {
+        return await tryLoad(original);
+      } catch (e) {
+        const alt = toJsDelivr(original);
+        if (alt) {
+          try {
+            return await tryLoad(alt);
+          } catch (e2) {}
+        }
+        throw new Error("All absolute attempts failed for " + original);
+      }
+    }
+
+    // If it's a root-relative (/something), try as-is
+    if (/^\//.test(original)) {
+      try {
+        return await tryLoad(original);
+      } catch (e) {}
+      // Also try without the leading slash (useful for GitHub Pages project path)
+      const noRoot = original.replace(/^\//, "");
+      for (const base of ["", "./"]) {
+        const candidate = base + noRoot;
+        try {
+          return await tryLoad(candidate);
+        } catch (e) {}
+      }
+      // Fall through to generic attempts
+    }
+
+    // Otherwise: relative/bare filename. Iterate candidate bases.
+    const filename = original.replace(/^\.?\//, ""); // normalize
+    const bases = [...new Set(CANDIDATE_BASES.map(b => {
+      // If contextDir is provided, try that first
+      if (contextDir && !/^https?:\/\//i.test(contextDir)) {
+        return contextDir.replace(/\/+$/, "") + "/" + b;
+      }
+      return b;
+    }))];
+
+    for (const base of bases) {
+      const candidate = (base ? base : "") + filename;
+      try {
+        return await tryLoad(candidate);
+      } catch (e) {}
+    }
+    throw new Error("Failed to resolve: " + original);
+  }
+
+  // Patch all <img> elements: set data-src as source of truth if present, else use src.
+  // Then resolve and replace on error automatically.
+  function enhanceImg(img) {
+    if (img.dataset._enhanced) return;
+    img.dataset._enhanced = "1";
+
+    const original = img.getAttribute("data-src") || img.getAttribute("src") || "";
+    if (!original) return;
+
+    let triedJsDelivr = false;
+
+    const attempt = async (urlList) => {
+      if (!urlList || !urlList.length) return;
+      const [head, ...tail] = urlList;
+      try {
+        const finalUrl = await resolveUrl(head);
+        img.src = finalUrl;
+      } catch (e) {
+        // If raw.* and not yet tried jsDelivr, push the converted URL next in line
+        if (/^https:\/\/raw\.githubusercontent\.com\//.test(head) && !triedJsDelivr) {
+          const alt = toJsDelivr(head);
+          if (alt) tail.unshift(alt);
+          triedJsDelivr = true;
+        }
+        await attempt(tail);
+      }
+    };
+
+    // Build candidates: original, plus if it's bare filename, add candidates later
+    const initialList = [original];
+    attempt(initialList);
+
+    img.onerror = function() {
+      // On visible error, try again through the resolver (e.g., page moved)
+      attempt([original]);
+      img.onerror = null; // prevent infinite loops
+    };
+  }
+
+  function splitDataImages(val) {
+    return (val || "")
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
+  async function resolveAll(urls) {
+    const out = [];
+    for (const u of urls) {
+      try {
+        const r = await resolveUrl(u);
+        out.push(r);
+      } catch (e) {
+        // skip failures, keep going so gallery still works with what we can load
+      }
+    }
+    return out;
+  }
+
+  document.addEventListener("DOMContentLoaded", async function() {
+    // 1) Enhance every <img>
+    document.querySelectorAll("img").forEach(enhanceImg);
+
+    // 2) If products use data-image / data-images for modals, normalize them
+    const productNodes = document.querySelectorAll("[data-image], [data-images]");
+    for (const node of productNodes) {
+      const single = node.getAttribute("data-image");
+      const multi = node.getAttribute("data-images");
+
+      if (single) {
+        try {
+          const resolved = await resolveUrl(single);
+          node.setAttribute("data-image", resolved);
+          // If there's an <img> inside without explicit src (or with failing src), set it
+          const img = node.querySelector("img");
+          if (img && (!img.getAttribute("src") || img.getAttribute("src").includes("raw.githubusercontent.com"))) {
+            img.setAttribute("src", resolved);
+          }
+        } catch (e) {}
+      }
+
+      if (multi) {
+        const urls = splitDataImages(multi);
+        const resolvedList = await resolveAll(urls);
+        if (resolvedList.length) {
+          node.setAttribute("data-images", resolvedList.join(","));
+        }
+      }
+    }
+  });
+})();
+</script>
 </body>
 </html>
